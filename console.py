@@ -37,6 +37,25 @@ class HBNBCommand(cmd.Cmd):
             print(f"{ob.id}")
             ob.save()
 
+    def do_show(self, line):
+        """show the requested object
+
+            Args:
+                line: the class name and id of requested object instance
+        """
+        args = line.split(' ')
+        obj_key = ".".join(args[:2])
+        if len(line) == 0:
+            print("** class name missing **")
+        elif args[0] not in ["BaseModel"]:
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        elif obj_key not in storage.all().keys():
+            print("** no instance found **")
+        else:
+            print(f"object key in dict: {obj_key}, string repr: {str(storage.all()[obj_key])}")
+
     def do_all(self, line):
         """print all instances available
             
@@ -45,17 +64,11 @@ class HBNBCommand(cmd.Cmd):
         """
         ob_inst_list = []
         if len(line) < 1:
-            for v in storage.all().values():
-                ob_inst_list.append(str(v))
-            print(ob_inst_list)
+            print("all reps here")
         elif line not in ["BaseModel"]:
             print("** class doesn't exist **")
         else:
-            for v in storage.all().values():
-                if line in v.values():
-                    tmp_ob = eval(v["__class__"])()
-                    ob_inst_list.append(str(tmp_ob))
-            print(ob_inst_list)
+            print("selected class only")
 
 
 if __name__ == '__main__':
