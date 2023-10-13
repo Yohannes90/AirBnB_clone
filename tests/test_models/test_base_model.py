@@ -39,7 +39,7 @@ class test_baseModel(unittest.TestCase):
             new = BaseModel(**n)
 
     # def test_kwargs_one(self):
-    #     """checks kwargs with one correct argument"""
+    #     """checks if kwargs is given invalid key it raises KeyError exception"""
     #     n = {'Name': 'test'}
     #     with self.assertRaises(KeyError):
     #         new = BaseModel(**n)
