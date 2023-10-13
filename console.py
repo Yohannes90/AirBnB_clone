@@ -3,6 +3,7 @@
 Entry point for console application
 """
 import cmd
+from datetime import datetime
 from models.base_model import BaseModel
 from models import storage
 
@@ -54,7 +55,20 @@ class HBNBCommand(cmd.Cmd):
         elif obj_key not in storage.all().keys():
             print("** no instance found **")
         else:
-            print(f"object key in dict: {obj_key}, string repr: {str(storage.all()[obj_key])}")
+            ob_dict = storage.all()[obj_key]
+            inst_dict = dict()
+            for k in ob_dict.keys():
+                if k == "__class__":
+                    continue
+                if k in ("created_at", "updated_at"):
+                    inst_dict[k] = datetime.strptime(ob_dict[k],
+                            "%Y-%m-%dT%H:%M:%S.%f")
+                    continue
+                inst_dict[k] = ob_dict[k]
+            print(ob_dict)
+            print(inst_dict)
+            print("")
+            print(f"[{ob_dict['__class__']}] ({ob_dict['id']}) {inst_dict}")
 
     def do_all(self, line):
         """print all instances available
