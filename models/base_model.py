@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-The base class which other classes will inherit from
+The base module class which other classes will inherit from
 """
 import uuid
 from datetime import datetime
@@ -26,11 +26,12 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-        storage.new(self)
+            storage.new(self)
 
     def __str__(self):
         """String representation of object instance"""
-        return f"[{self.__class__.__name__}] ({self.id}) ({self.__dict__})"
+        cls = (str(type(self)).split('.')[-1]).split('\'')[0]
+        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
 
     def save(self):
         """Update updated_at time of instance"""
