@@ -73,14 +73,14 @@ class test_baseModel(unittest.TestCase):
         new = bm.to_dict()
         self.assertEqual(bm.to_dict(), new)
 
-    # def test_save(self):
-    #     """ check save is storing same data as we get from dict"""
-    #     bm = BaseModel()
-    #     bm.save()
-    #     key = "BaseModel." + bm.id
-    #     with open('file.json', 'r') as f:
-    #         j = json.load(f)
-    #         self.assertEqual(j[key], bm.to_dict())
+    def test_save(self):
+        """ check save is storing same data as we get from dict"""
+        bm = BaseModel()
+        bm.save()
+        key = "BaseModel." + bm.id
+        with open('file.json', 'r') as f:
+            j = json.load(f)
+            self.assertEqual(j[key], bm.to_dict())
 
     def setup(self):
         """define instructions that will be excuted before each test methods"""
