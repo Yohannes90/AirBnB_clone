@@ -21,7 +21,7 @@ class User(BaseModel):
 
     def __init__(self, *args,  **kwargs):
         """Initializer for user class
-            
+
             Args:
                 args: array of values to set inst attrs (not in use)
                 kwargs: key value pairs to assign to instance

@@ -18,8 +18,8 @@ class BaseModel:
                 if k == "__class__":
                     continue
                 if k in ["created_at", "updated_at"]:
-                    self.__dict__[k] = datetime.strptime(v,
-                            "%Y-%m-%dT%H:%M:%S.%f")
+                    ob_dict = self.__dict__
+                    ob_dict[k] = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
                     continue
                 self.__dict__[k] = v
         else:

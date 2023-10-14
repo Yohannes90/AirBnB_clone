@@ -62,7 +62,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_delete(self, line):
         """Delete an instance of an object
-            
+
             Args:
                 line: arguments to delete (requires classname and object id)
         """
@@ -81,24 +81,23 @@ class HBNBCommand(cmd.Cmd):
             del all_obj[obj_key]
             storage.save()
 
-
     def do_all(self, line):
         """print all instances available
-            
+
             Args:
                 line: class of objects to print or nothing to print all objects
         """
         args = line.split(' ')
         if len(line) == 0:
             all_objs = [str(eval(f"{v['__class__']}(**v)"))
-                    for v in storage.all().values()]
+                        for v in storage.all().values()]
             print(f"{all_objs}")
         elif args[0] not in ["BaseModel", "User"]:
             print("** class doesn't exist **")
         else:
             class_only_objs = [str(eval(f"{v['__class__']}(**v)"))
-                    for v in storage.all().values()
-                    if v["__class__"] == args[0]]
+                               for v in storage.all().values()
+                               if v["__class__"] == args[0]]
             print(f"{class_only_objs}")
 
     """@staticmethod
@@ -107,7 +106,7 @@ class HBNBCommand(cmd.Cmd):
 
             Args:
                 attr_val: the value to cast (str, int, float)
-        
+
         if attr_val[0] == '"' and attr_val[-1] == '"':
             return str(attr_val)
         if '.' in attr_val:
@@ -116,11 +115,11 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, line):
         """update an instance attribute or add new attribute
-            
-            Args:
-                line: class and id of inst to update then attr name and attr val
 
-            Usage: update <class name> <id> <attribute name> '<attribute value>'
+            Args:
+                line: class and id of inst to upd then attr name and attr val
+
+            Usage: update <class name> <id> <attr name> '<attr value>'
         """
         args = line.split(' ')
         obj_key = ".".join(args[:2])
@@ -138,17 +137,19 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
         else:
             obj_dict = storage.all()[obj_key]
-            new_attr_value = to_cast(args[3])
-            obj_dict.update((args[2], new_attr_value))
+            new_attr_val = HBNBCommand.to_cast(args[3])
+            new_attr_key = args[2]
+            obj_dict.update((new_attr_key, new_attr_val))
 
     @staticmethod
     def to_cast(attr_val):
-        """cast new attribute value correctly
+        """cast new attr value correctly
 
             Args:
-                attr_val: the value to cast (str, int, float)
+                attr_val: value to cast
         """
         if attr_val[0] == '"' and attr_val[-1] == '"':
+            attr_val = attr_val.strip('"')
             return str(attr_val)
         if '.' in attr_val:
             return float(attr_val)
