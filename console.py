@@ -5,6 +5,7 @@ Entry point for console application
 import cmd
 from datetime import datetime
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
 
@@ -31,7 +32,7 @@ class HBNBCommand(cmd.Cmd):
         """
         if len(line) == 0:
             print("** class name missing **")
-        elif line not in ["BaseModel"]:
+        elif line not in ["BaseModel", "User"]:
             print("** class doesn't exist **")
         else:
             ob = eval(line)()
@@ -48,7 +49,7 @@ class HBNBCommand(cmd.Cmd):
         obj_key = ".".join(args[:2])
         if len(line) == 0:
             print("** class name missing **")
-        elif args[0] not in ["BaseModel"]:
+        elif args[0] not in ["BaseModel", "User"]:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
@@ -56,35 +57,106 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
         else:
             ob_dict = storage.all()[obj_key]
-            inst_dict = dict()
-            for k in ob_dict.keys():
-                if k == "__class__":
-                    continue
-                if k in ("created_at", "updated_at"):
-                    inst_dict[k] = datetime.strptime(ob_dict[k],
-                            "%Y-%m-%dT%H:%M:%S.%f")
-                    continue
-                inst_dict[k] = ob_dict[k]
-            print(ob_dict)
-            print(inst_dict)
-            print("")
-            print(f"[{ob_dict['__class__']}] ({ob_dict['id']}) {inst_dict}")
+            old_inst = eval(f"{args[0]}(**ob_dict)")
+            print(str(old_inst))
+
+    def do_delete(self, line):
+        """Delete an instance of an object
+            
+            Args:
+                line: arguments to delete (requires classname and object id)
+        """
+        args = line.split(' ')
+        obj_key = ".".join(args[:2])
+        if len(line) == 0:
+            print("** class name missing **")
+        elif args[0] not in ["BaseModel", "User"]:
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        elif obj_key not in storage.all().keys():
+            print("** no instance found **")
+        else:
+            all_obj = storage.all()
+            del all_obj[obj_key]
+            storage.save()
+
 
     def do_all(self, line):
         """print all instances available
             
             Args:
-                line: class of objects to print
+                line: class of objects to print or nothing to print all objects
         """
-        ob_inst_list = []
-        if len(line) < 1:
-            print("all reps here")
-        elif line not in ["BaseModel"]:
+        args = line.split(' ')
+        if len(line) == 0:
+            all_objs = [str(eval(f"{v['__class__']}(**v)"))
+                    for v in storage.all().values()]
+            print(f"{all_objs}")
+        elif args[0] not in ["BaseModel", "User"]:
             print("** class doesn't exist **")
         else:
-            print("selected class only")
+            class_only_objs = [str(eval(f"{v['__class__']}(**v)"))
+                    for v in storage.all().values()
+                    if v["__class__"] == args[0]]
+            print(f"{class_only_objs}")
+
+    """@staticmethod
+    def to_cast(attr_val):
+        cast new attribute value correctly
+
+            Args:
+                attr_val: the value to cast (str, int, float)
+        
+        if attr_val[0] == '"' and attr_val[-1] == '"':
+            return str(attr_val)
+        if '.' in attr_val:
+            return float(attr_val)
+        return int(attr_val)"""
+
+    def do_update(self, line):
+        """update an instance attribute or add new attribute
+            
+            Args:
+                line: class and id of inst to update then attr name and attr val
+
+            Usage: update <class name> <id> <attribute name> '<attribute value>'
+        """
+        args = line.split(' ')
+        obj_key = ".".join(args[:2])
+        if len(line) == 0:
+            print("** class name missing **")
+        elif args[0] not in ["BaseModel", "User"]:
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        elif obj_key not in storage.all().keys():
+            print("** no instance found **")
+        elif len(args) < 3:
+            print("** attribute name missing **")
+        elif len(args) < 4:
+            print("** value missing **")
+        else:
+            obj_dict = storage.all()[obj_key]
+            new_attr_value = to_cast(args[3])
+            obj_dict.update((args[2], new_attr_value))
+
+    @staticmethod
+    def to_cast(attr_val):
+        """cast new attribute value correctly
+
+            Args:
+                attr_val: the value to cast (str, int, float)
+        """
+        if attr_val[0] == '"' and attr_val[-1] == '"':
+            return str(attr_val)
+        if '.' in attr_val:
+            return float(attr_val)
+        return int(attr_val)
+
+
+HBNBCommand.prompt = "(hbnb) "
 
 
 if __name__ == '__main__':
-    HBNBCommand.prompt = "(hbnb)"
     HBNBCommand().cmdloop()
