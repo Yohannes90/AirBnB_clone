@@ -18,11 +18,11 @@ class HBNBCommand(cmd.Cmd):
     """Class to run console and execute given commands
 
         Attributes:
-            __all_classes (tuple): all available object classes to use in commands
+            __all_classes (tuple): all available obj classes to use in commands
     """
 
     __all_classes = ("BaseModel", "User", "State",
-                        "City", "Amenity", "Place", "Review")
+                     "City", "Amenity", "Place", "Review")
 
     def do_quit(self, line):
         """command to quit the console"""
@@ -76,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
         """Delete an instance of an object
 
             Args:
-                line: arguments to delete (requires classname and object id)
+                line: arguments to delete
         """
         args = line.split(' ')
         obj_key = ".".join(args[:2])
