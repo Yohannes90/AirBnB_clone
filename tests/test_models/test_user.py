@@ -1,58 +1,35 @@
 #!/usr/bin/python3
 """Module that contains unittests for models/user.py"""
 from models.user import User
-import unittest
-from datetime import datetime
-import uuid
+from tests.test_models.test_base_model import test_baseModel
 
-class test_user(unittest.TestCase):
+
+class test_user(test_baseModel):
+>>>>>>> 7d9c1606788cbf7908d646b2a07f0ed9b068df86
     """Defines unit tests for models/user.py"""
+
+    def __init__(self, *args, **kwargs):
+        """initalize instance"""
+        super().__init__(*args, *kwargs)
+        self.name = 'User'
+        self.value = User
+
     def test_first_name(self):
         """check type of first_name is string"""
-        new = User()
-        self.assertIsInstance(new.first_name, str)
+        new_user = self.value()
+        self.assertIsInstance(new_user.first_name, str)
 
     def test_last_name(self):
         """check type of last_name is string"""
-        new = User()
-        self.assertIsInstance(new.last_name, str)
+        new_user = self.value()
+        self.assertIsInstance(new_user.last_name, str)
 
     def test_email(self):
         """check type of email is string"""
-        new = User()
-        self.assertIsInstance(new.email, str)
+        new_user = self.value()
+        self.assertIsInstance(new_user.email, str)
 
     def test_password(self):
         """check type of password is string"""
-        new = User()
-        self.assertIsInstance(new.password, str)
-
-    def test_created_at(self):
-        """check if created_at is assigned datetime object"""
-        new = User()
-        self.assertIsInstance(new.created_at, datetime)
-
-    def test_updated_at(self):
-        """check if updated at is assigned datetime object"""
-        new = User()
-        self.assertIsInstance(new.updated_at, datetime)
-
-    def test_kwargs_asignment(self):
-        """check if kwargs gest assigned to inst"""
-        new1 = User()
-        new1.name = "John"
-
-        key_word_args = {"name" : "Betty", "surname" : "Battery", "age" : 98}
-        new2 = User(**key_word_args)
-
-        self.assertEqual(new1.name, "John")
-        
-        self.assertEqual(new2.name, "Betty")
-        self.assertEqual(new2.surname, "Battery")
-        self.assertEqual(new2.age, 98)
-
-    def test_id_assignment(self):
-        """check if id is assigned a uuid4 uuid"""
-        new = User()
-        tmp_id = uuid.uuid4()
-        self.assertIsInstance(new.id, str)
+        new_user = self.value()
+        self.assertIsInstance(new_user.password, str)
