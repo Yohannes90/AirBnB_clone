@@ -72,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
             old_inst = eval(f"{args[0]}(**ob_dict)")
             print(str(old_inst))
 
-    def do_delete(self, line):
+    def do_destroy(self, line):
         """Delete an instance of an object
 
             Args:

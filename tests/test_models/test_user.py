@@ -5,7 +5,6 @@ from tests.test_models.test_base_model import test_baseModel
 
 
 class test_user(test_baseModel):
->>>>>>> 7d9c1606788cbf7908d646b2a07f0ed9b068df86
     """Defines unit tests for models/user.py"""
 
     def __init__(self, *args, **kwargs):
