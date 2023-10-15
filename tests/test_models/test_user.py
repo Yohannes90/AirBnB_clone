@@ -8,7 +8,7 @@ class test_user(test_baseModel):
     """Defines unit tests for models/user.py"""
 
     def __init__(self, *args, **kwargs):
-        """initalize instance"""
+        """initantiate user instance"""
         super().__init__(*args, *kwargs)
         self.name = 'User'
         self.value = User
