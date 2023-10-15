@@ -3,6 +3,7 @@
 """
 from models.base_model import BaseModel
 
+
 class Review(BaseModel):
     """Represents review for app or console
 
@@ -14,12 +15,3 @@ class Review(BaseModel):
     place_id = ""
     user_id = ""
     text = ""
-
-    def __init__(self, *args, **kwargs):
-        """Instantiates new review
-
-            Args:
-                args: array of values to set inst attrs (not in use)
-                kwargs: key value pairs to assign to instance
-        """
-        super().__init__(self, *args, **kwargs)

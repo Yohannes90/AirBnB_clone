@@ -3,6 +3,7 @@
 """
 from models.base_model import BaseModel
 
+
 class City(BaseModel):
     """Represent cities for app or console
 
@@ -12,12 +13,3 @@ class City(BaseModel):
     """
     state_id = ""
     name = ""
-
-    def __init__(self, *args, **kwargs):
-        """Instantiates new city
-
-            Args:
-                args: array of values to set inst attrs (not in use)
-                kwargs: key value pairs to assign to instance
-        """
-        super().__init__(self, *args, **kwargs)

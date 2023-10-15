@@ -3,6 +3,7 @@
 """
 from models.base_model import BaseModel
 
+
 class Place(BaseModel):
     """Represents place for app or console
 
@@ -30,12 +31,3 @@ class Place(BaseModel):
     latitude = 0.0
     longitude = 0.0
     amenity_ids = []
-
-    def __init__(self, *args, **kwargs):
-        """Instantiates new place
-
-            Args:
-                args: array of values to set inst attrs (not in use)
-                kwargs: key value pairs to assign to instance
-        """
-        super().__init__(self, *args, **kwargs)
