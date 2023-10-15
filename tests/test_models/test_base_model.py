@@ -89,7 +89,7 @@ class test_baseModel(unittest.TestCase):
         """ check save is storing same data as we get from dict"""
         bm = self.value()
         bm.save()
-        key = "BaseModel." + bm.id
+        key = self.name + "." + bm.id
         with open('file.json', 'r') as f:
             j = json.load(f)
             self.assertEqual(j[key], bm.to_dict())
