@@ -34,7 +34,7 @@ class test_baseModel(unittest.TestCase):
         """checks kwargs with int arguments"""
         bm = self.value()
         copy = bm.to_dict()
-        copy.update({1 : 2})
+        copy.update({1: 2})
         with self.assertRaises(TypeError):
             new = BaseModel(**copy)
 
@@ -45,7 +45,7 @@ class test_baseModel(unittest.TestCase):
             new = BaseModel(**n)
 
     def test_kwargs_one(self):
-        """checks if kwargs is given invalid key it raises KeyError exception"""
+        """checks if given invalid key KeyError exception is raised"""
         new = BaseModel()
         new.name = "Betty"
         new.age = 98
@@ -67,7 +67,7 @@ class test_baseModel(unittest.TestCase):
         self.assertIsInstance(bm.created_at, datetime.datetime)
 
     def test_updated_at(self):
-        """checks updated_at is type datetime, not biased when given date as key"""
+        """checks updated_at is type datetime"""
         bm = self.value()
         self.assertIsInstance(bm.updated_at, datetime.datetime)
         n = bm.to_dict()
@@ -77,7 +77,8 @@ class test_baseModel(unittest.TestCase):
     def test_to_str(self):
         """checks __str__ returns desired output"""
         bm = self.value()
-        self.assertEqual(str(bm), '[{}] ({}) {}'.format(self.name, bm.id, bm.__dict__))
+        self.assertEqual(str(bm), '[{}] ({}) {}'.format(self.name, bm.id,
+                         bm.__dict__))
 
     def test_todict(self):
         """check to_dict method"""
