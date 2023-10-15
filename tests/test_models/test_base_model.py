@@ -13,7 +13,7 @@ class test_baseModel(unittest.TestCase):
     """
 
     def __init__(self, *args, **kwargs):
-        """initalize instance"""
+        """instantiate BaseModel instance"""
         super().__init__(*args, *kwargs)
         self.name = 'BaseModel'
         self.value = BaseModel
