@@ -154,6 +154,201 @@ class HBNBCommand(cmd.Cmd):
             return float(attr_val)
         return int(attr_val)
 
+    def do_BaseModel(self, line):
+        """apart of dot notation commands
+            
+            Args:
+                line: args to command starting at .
+        """
+        args = line.split(' ')
+        p_cmd = args[0][1:-1]
+        p_cmd = p_cmd.split('(')
+        if args[0] == ".all()":
+            HBNBCommand.all_cls_cmd("BaseModel")
+        elif args[0] == ".count()":
+            HBNBCommand.count_cls_cmd("BaseModel")
+        elif p_cmd[0] == "show":
+            HBNBCommand.show_cls_cmd("BaseModel", p_cmd)
+        elif p_cmd[0] == "destroy":
+            HBNBCommand.destroy_cls_cmd("BaseModel", p_cmd)
+
+    def do_User(self, line):
+        """apart of dot notation commands
+            
+            Args:
+                line: args to command starting at .
+        """
+        args = line.split(' ')
+        p_cmd = args[0][1:-1]
+        p_cmd = p_cmd.split('(')
+        if args[0] == ".all()":
+            HBNBCommand.all_cls_cmd("User")
+        elif args[0] == ".count()":
+            HBNBCommand.count_cls_cmd("User")
+        elif p_cmd[0] == "show":
+            HBNBCommand.show_cls_cmd("User", p_cmd)
+        elif p_cmd[0] == "destroy":
+            HBNBCommand.destroy_cls_cmd("User", p_cmd)
+
+    def do_Amenity(self, line):
+        """apart of dot notation commands
+            
+            Args:
+                line: args to command starting at .
+        """
+        args = line.split(' ')
+        p_cmd = args[0][1:-1]
+        p_cmd = p_cmd.split('(')
+        if args[0] == ".all()":
+            HBNBCommand.all_cls_cmd("Amenity")
+        elif args[0] == ".count()":
+            HBNBCommand.count_cls_cmd("Amenity")
+        elif p_cmd[0] == "show":
+            HBNBCommand.show_cls_cmd("Amenity", p_cmd)
+        elif p_cmd[0] == "destroy":
+            HBNBCommand.destroy_cls_cmd("Amenity", p_cmd)
+
+    def do_City(self, line):
+        """apart of dot notation commands
+            
+            Args:
+                line: args to command starting at .
+        """
+        args = line.split(' ')
+        p_cmd = args[0][1:]
+        p_cmd = p_cmd.split('(')
+        if args[0] == ".all()":
+            HBNBCommand.all_cls_cmd("City")
+        elif args[0] == ".count()":
+            HBNBCommand.count_cls_cmd("City")
+        elif p_cmd[0] == "show":
+            HBNBCommand.show_cls_cmd("City", p_cmd)
+        elif p_cmd[0] == "destroy":
+            HBNBCommand.destroy_cls_cmd("City", p_cmd)
+
+    def do_Place(self, line):
+        """apart of dot notation commands
+            
+            Args:
+                line: args to command starting at .
+        """
+        args = line.split(' ')
+        p_cmd = args[0][1:]
+        p_cmd = p_cmd.split('(')
+        if args[0] == ".all()":
+            HBNBCommand.all_cls_cmd("Place")
+        elif args[0] == ".count()":
+            HBNBCommand.count_cls_cmd("Place")
+        elif p_cmd[0] == "show":
+            HBNBCommand.show_cls_cmd("Place", p_cmd)
+        elif p_cmd[0] == "destroy":
+            HBNBCommand.destroy_cls_cmd("Place", p_cmd)
+
+    def do_State(self, line):
+        """apart of dot notation commands
+            
+            Args:
+                line: args to command starting at .
+        """
+        args = line.split(' ')
+        p_cmd = args[0][1:]
+        p_cmd = p_cmd.split('(')
+        if args[0] == ".all()":
+            HBNBCommand.all_cls_cmd("State")
+        elif args[0] == ".count()":
+            HBNBCommand.count_cls_cmd("State")
+        elif p_cmd[0] == "show":
+            HBNBCommand.show_cls_cmd("State", p_cmd)
+        elif p_cmd[0] == "destroy":
+            HBNBCommand.destroy_cls_cmd("State", p_cmd)
+
+    def do_Review(self, line):
+        """apart of dot notation commands
+            
+            Args:
+                line: args to command starting at .
+        """
+        args = line.split(' ')
+        p_cmd = args[0][1:]
+        p_cmd = p_cmd.split('(')
+        if args[0] == ".all()":
+            HBNBCommand.all_cls_cmd("Review")
+        elif args[0] == ".count()":
+            HBNBCommand.count_cls_cmd("Review")
+        elif p_cmd[0] == "show":
+            HBNBCommand.show_cls_cmd("Review", p_cmd)
+        elif p_cmd[0] == "destroy":
+            HBNBCommand.destroy_cls_cmd("Review", p_cmd)
+
+    @staticmethod
+    def all_cls_cmd(name):
+        """print list of all saved objects of class name
+
+            Args:
+                name: name of class to find
+        """
+        objs = storage.all()
+        obj_list = [str(eval(f"{v['__class__']}(**v)"))
+                    for v in objs.values()
+                    if v["__class__"] == name]
+        print(obj_list)
+
+    @staticmethod
+    def count_cls_cmd(name):
+        """count how many instances of a class are saved
+
+            Args:
+                name: name of class to count
+        """
+        num = 0
+        objs = storage.all()
+        for v in objs.values():
+            if v["__class__"] == name:
+                num += 1
+        print(num)
+
+    @staticmethod
+    def show_cls_cmd(name, args):
+        """the show command with dot notation
+
+            Args:
+                name: calling class name
+                args: the id of instance
+        """
+        key = ''
+        if len(args) >= 2:
+            key = name + '.' + args[1]
+
+        if len(args) < 2:
+            print("** instance id missing **")
+        elif key not in storage.all().keys():
+            print("** no instance found **")
+        else:
+            ob_dict = storage.all()[key]
+            old_inst = eval(f"{name}(**ob_dict)")
+            print(str(old_inst))
+
+    @staticmethod
+    def destroy_cls_cmd(name, args):
+        """the destroy command with dot notation
+
+            Args:
+                name: calling class name
+                args: list of args or id
+        """
+        key = ''
+        if len(args) >= 2:
+            key = name + '.' + args[1]
+
+        if len(args) < 2:
+            print("** instance id missing **")
+        elif key not in storage.all().keys():
+            print("** no instance found **")
+        else:
+            objs = storage.all()
+            del objs[key]
+            storage.save()
+
 
 HBNBCommand.prompt = "(hbnb) "
 
