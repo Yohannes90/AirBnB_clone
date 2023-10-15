@@ -38,11 +38,17 @@ class test_baseModel(unittest.TestCase):
         with self.assertRaises(TypeError):
             new = BaseModel(**n)
 
-    # def test_kwargs_one(self):
-    #     """checks if kwargs is given invalid key it raises KeyError exception"""
-    #     n = {'Name': 'test'}
-    #     with self.assertRaises(KeyError):
-    #         new = BaseModel(**n)
+    def test_kwargs_one(self):
+        """checks if kwargs is given invalid key it raises KeyError exception"""
+        new = BaseModel()
+        new.name = "Betty"
+        new.age = 98
+        inst_attrs = new.to_dict()
+        new2 = BaseModel(**inst_attrs)
+
+        self.assertFalse(new is new2)
+
+        self.assertEqual(new.to_dict(), new2.to_dict())
 
     def test_id(self):
         """checks id is string"""
@@ -99,3 +105,7 @@ class test_baseModel(unittest.TestCase):
             os.rename("tmp", "file.json")
         except IOError:
             pass
+
+
+if __name__ == "__main__":
+    unittest.main()

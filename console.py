@@ -6,11 +6,23 @@ import cmd
 from datetime import datetime
 from models.base_model import BaseModel
 from models.user import User
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
 from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
-    """Class to run console and execute given commands"""
+    """Class to run console and execute given commands
+
+        Attributes:
+            __all_classes (tuple): all available object classes to use in commands
+    """
+
+    __all_classes = ("BaseModel", "User", "State",
+                        "City", "Amenity", "Place", "Review")
 
     def do_quit(self, line):
         """command to quit the console"""
@@ -32,7 +44,7 @@ class HBNBCommand(cmd.Cmd):
         """
         if len(line) == 0:
             print("** class name missing **")
-        elif line not in ["BaseModel", "User"]:
+        elif line not in HBNBCommand.__all_classes:
             print("** class doesn't exist **")
         else:
             ob = eval(line)()
@@ -49,7 +61,7 @@ class HBNBCommand(cmd.Cmd):
         obj_key = ".".join(args[:2])
         if len(line) == 0:
             print("** class name missing **")
-        elif args[0] not in ["BaseModel", "User"]:
+        elif args[0] not in HBNBCommand.__all_classes:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
@@ -70,7 +82,7 @@ class HBNBCommand(cmd.Cmd):
         obj_key = ".".join(args[:2])
         if len(line) == 0:
             print("** class name missing **")
-        elif args[0] not in ["BaseModel", "User"]:
+        elif args[0] not in HBNBCommand.__all_classes:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
@@ -92,26 +104,13 @@ class HBNBCommand(cmd.Cmd):
             all_objs = [str(eval(f"{v['__class__']}(**v)"))
                         for v in storage.all().values()]
             print(f"{all_objs}")
-        elif args[0] not in ["BaseModel", "User"]:
+        elif args[0] not in HBNBCommand.__all_classes:
             print("** class doesn't exist **")
         else:
             class_only_objs = [str(eval(f"{v['__class__']}(**v)"))
                                for v in storage.all().values()
                                if v["__class__"] == args[0]]
             print(f"{class_only_objs}")
-
-    """@staticmethod
-    def to_cast(attr_val):
-        cast new attribute value correctly
-
-            Args:
-                attr_val: the value to cast (str, int, float)
-
-        if attr_val[0] == '"' and attr_val[-1] == '"':
-            return str(attr_val)
-        if '.' in attr_val:
-            return float(attr_val)
-        return int(attr_val)"""
 
     def do_update(self, line):
         """update an instance attribute or add new attribute
@@ -125,7 +124,7 @@ class HBNBCommand(cmd.Cmd):
         obj_key = ".".join(args[:2])
         if len(line) == 0:
             print("** class name missing **")
-        elif args[0] not in ["BaseModel", "User"]:
+        elif args[0] not in HBNBCommand.__all_classes:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
@@ -138,8 +137,8 @@ class HBNBCommand(cmd.Cmd):
         else:
             obj_dict = storage.all()[obj_key]
             new_attr_val = HBNBCommand.to_cast(args[3])
-            new_attr_key = args[2]
-            obj_dict.update((new_attr_key, new_attr_val))
+            obj_dict[args[2]] = new_attr_val
+            storage.save()
 
     @staticmethod
     def to_cast(attr_val):
