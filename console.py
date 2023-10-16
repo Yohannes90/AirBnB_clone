@@ -171,6 +171,8 @@ class HBNBCommand(cmd.Cmd):
             HBNBCommand.show_cls_cmd("BaseModel", p_cmd)
         elif p_cmd[0] == "destroy":
             HBNBCommand.destroy_cls_cmd("BaseModel", p_cmd)
+        elif p_cmd[0] == "update":
+            HBNBCommand.update_cls_cmd("BaseModel", args)
 
     def do_User(self, line):
         """apart of dot notation commands
@@ -189,6 +191,8 @@ class HBNBCommand(cmd.Cmd):
             HBNBCommand.show_cls_cmd("User", p_cmd)
         elif p_cmd[0] == "destroy":
             HBNBCommand.destroy_cls_cmd("User", p_cmd)
+        elif p_cmd[0] == "update":
+            HBNBCommand.update_cls_cmd("User", args)
 
     def do_Amenity(self, line):
         """apart of dot notation commands
@@ -207,6 +211,8 @@ class HBNBCommand(cmd.Cmd):
             HBNBCommand.show_cls_cmd("Amenity", p_cmd)
         elif p_cmd[0] == "destroy":
             HBNBCommand.destroy_cls_cmd("Amenity", p_cmd)
+        elif p_cmd[0] == "update":
+            HBNBCommand.update_cls_cmd("Amenity", args)
 
     def do_City(self, line):
         """apart of dot notation commands
@@ -225,6 +231,8 @@ class HBNBCommand(cmd.Cmd):
             HBNBCommand.show_cls_cmd("City", p_cmd)
         elif p_cmd[0] == "destroy":
             HBNBCommand.destroy_cls_cmd("City", p_cmd)
+        elif p_cmd[0] == "update":
+            HBNBCommand.update_cls_cmd("City", args)
 
     def do_Place(self, line):
         """apart of dot notation commands
@@ -243,6 +251,8 @@ class HBNBCommand(cmd.Cmd):
             HBNBCommand.show_cls_cmd("Place", p_cmd)
         elif p_cmd[0] == "destroy":
             HBNBCommand.destroy_cls_cmd("Place", p_cmd)
+        elif p_cmd[0] == "update":
+            HBNBCommand.update_cls_cmd("Place", args)
 
     def do_State(self, line):
         """apart of dot notation commands
@@ -261,6 +271,8 @@ class HBNBCommand(cmd.Cmd):
             HBNBCommand.show_cls_cmd("State", p_cmd)
         elif p_cmd[0] == "destroy":
             HBNBCommand.destroy_cls_cmd("State", p_cmd)
+        elif p_cmd[0] == "update":
+            HBNBCommand.update_cls_cmd("State", args)
 
     def do_Review(self, line):
         """apart of dot notation commands
@@ -279,6 +291,8 @@ class HBNBCommand(cmd.Cmd):
             HBNBCommand.show_cls_cmd("Review", p_cmd)
         elif p_cmd[0] == "destroy":
             HBNBCommand.destroy_cls_cmd("Review", p_cmd)
+        elif p_cmd[0] == "update":
+            HBNBCommand.update_cls_cmd("Review", args)
 
     @staticmethod
     def all_cls_cmd(name):
@@ -348,6 +362,39 @@ class HBNBCommand(cmd.Cmd):
             objs = storage.all()
             del objs[key]
             storage.save()
+
+    @staticmethod
+    def update_cls_cmd(name, args):
+        """update class cmd with dot notation
+
+            Args:
+                name: name of class to run cmd on
+                args: args to cmd for class
+        """
+        p_cmd = args[0].split('(')
+        args[0] = p_cmd[1]
+        if len(args) < 2:
+            args = args[0].split(',')
+
+        args = [i.strip(',') for i in args]
+        if len(args) >= 3:
+            args[2] = args[2][:-1]
+
+        if len(args) < 1:
+            print("** no instance found **")
+        elif len(args) < 2:
+            print("** attribute name missing **")
+        elif len(args) < 3:
+            print("** value missing **")
+        else:
+            key = ".".join((name, args[0]))
+            if key not in storage.all().keys():
+                print("** no instance found **")
+            else:
+                inst = storage.all()[key]
+                val = HBNBCommand.to_cast(args[2])
+                inst[args[1]] = val
+                storage.save()
 
 
 HBNBCommand.prompt = "(hbnb) "
