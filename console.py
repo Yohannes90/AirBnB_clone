@@ -373,6 +373,9 @@ class HBNBCommand(cmd.Cmd):
         """
         p_cmd = args[0].split('(')
         args[0] = p_cmd[1]
+        if len(args) < 2:
+            args = args[0].split(',')
+
         args = [i.strip(',') for i in args]
         if len(args) >= 3:
             args[2] = args[2][:-1]
