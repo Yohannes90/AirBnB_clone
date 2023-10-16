@@ -156,7 +156,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_BaseModel(self, line):
         """apart of dot notation commands
-            
+
             Args:
                 line: args to command starting at .
         """
@@ -174,7 +174,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_User(self, line):
         """apart of dot notation commands
-            
+
             Args:
                 line: args to command starting at .
         """
@@ -192,7 +192,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_Amenity(self, line):
         """apart of dot notation commands
-            
+
             Args:
                 line: args to command starting at .
         """
@@ -210,7 +210,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_City(self, line):
         """apart of dot notation commands
-            
+
             Args:
                 line: args to command starting at .
         """
@@ -228,7 +228,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_Place(self, line):
         """apart of dot notation commands
-            
+
             Args:
                 line: args to command starting at .
         """
@@ -246,7 +246,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_State(self, line):
         """apart of dot notation commands
-            
+
             Args:
                 line: args to command starting at .
         """
@@ -264,7 +264,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_Review(self, line):
         """apart of dot notation commands
-            
+
             Args:
                 line: args to command starting at .
         """
